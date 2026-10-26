@@ -133,8 +133,10 @@ function makeLeaf(w, h, mat) {
 // band(): the free strip of wall between the name and the controls, in px from the top of the canvas;
 // the window is fitted inside it so the text never lies on the view
 export function initHero(canvas, { src, mask, focus, light, band }) {
-  const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, innerWidth < 820 ? 1.5 : 1.75));
+  // phones skip antialiasing: dropped frames read as shaking while you walk out of the window
+  const phone = matchMedia('(pointer: coarse)').matches || innerWidth < 820;
+  const renderer = new WebGLRenderer({ canvas, antialias: !phone, alpha: false, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, phone ? 1.5 : 1.75));
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.setClearColor('#1f1a15');
 
@@ -254,7 +256,7 @@ export function initHero(canvas, { src, mask, focus, light, band }) {
     hemi.intensity = blendNum('hemi'); sun.intensity = blendNum('sunI'); lamp.intensity = blendNum('lamp'); fill.intensity = blendNum('fill'); bounce.intensity = blendNum('bounce');
   }
 
-  let visible = true, raf = 0, last = performance.now();
+  let visible = true, raf = 0, last = performance.now(), sc = 0;
   function frame(now) {
     raf = 0;
     if (!visible || document.hidden) return;
@@ -264,7 +266,10 @@ export function initHero(canvas, { src, mask, focus, light, band }) {
     for (let i = 0; i < 4; i++) w[i] += (target[i] - w[i]) * Math.min(1, dt * 2.2);
     applyLight();
 
-    const io = state.intro, sc = state.scroll;
+    // touch scrolling reports its position in uneven jumps: the camera follows a damped copy of it, never the raw value
+    sc += (state.scroll - sc) * (1 - Math.exp(-dt * 8));
+    if (Math.abs(state.scroll - sc) < 1e-4) sc = state.scroll;
+    const io = state.intro;
     // the morning, in order: the slats tilt and let the light in, the leaves swing out, you step back to see the window
     const slat = MathUtils.smoothstep(io, 0, 0.32) * 1.05;
     for (const s of slats) s.rotation.x = slat;

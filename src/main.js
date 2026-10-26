@@ -81,7 +81,7 @@ import('./gl.js').then(({ initHero }) => {
   buttons.forEach((b) => b.addEventListener('click', () => { gl.setLight(b.dataset.light); press(b.dataset.light); }));
   gsap.to(gl.state, {
     scroll: 1, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: true },
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: true }, // damped again inside the GL loop
   });
   if (reduced || settled) { gl.state.intro = 1; root.classList.remove('no-gl'); root.classList.add('has-gl'); settled = true; return; }
   settled = true;
@@ -95,7 +95,7 @@ import('./gl.js').then(({ initHero }) => {
 }).catch((err) => { console.warn('WebGL off, static hero', err); clearTimeout(slow); showStatic(); });
 
 if (!reduced) {
-  gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: true } })
+  gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: 0.4 } })
     .to('.hero__copy', { yPercent: -30, opacity: 0, ease: 'none', duration: 0.16 }, 0)
     .to('.hero__light, .hero__book', { opacity: 0, duration: 0.15 }, 0)
     .to({}, { duration: 0.5 });
