@@ -82,12 +82,19 @@ p { margin: 0; }
 .no-gl .hero__still { opacity: 1; }
 .hero__copy {
   position: absolute; inset: 0; pointer-events: none; color: var(--ink); transition: color .9s;
-  display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(96px, 24vh, 220px) var(--m) 0; /* inside the window's sky */
+  display: flex; flex-direction: column; align-items: center; text-align: center; padding: 92px var(--m) 0; /* on the plaster, above the window */
 }
 .hero__title { margin: 0; font: 300 var(--step-display)/0.9 var(--font); letter-spacing: -0.04em; pointer-events: auto; }
 .hero__title .line { display: block; overflow: hidden; padding-bottom: .08em; }
+@media (min-width: 820px) {
+  /* wide screens: the name on one line, leaving the most wall-height to the window */
+  .hero__title { white-space: nowrap; }
+  .hero__title .line { display: inline-block; }
+}
 .hero__title .line > span { display: inline-block; }
-html.has-gl[data-light="notte"] .hero__copy, html.has-gl[data-light="tramonto"] .hero__copy, html.has-gl[data-light="notte"] .hero__line { color: var(--paper); }
+html.has-gl[data-light="notte"] .hero__copy, html.has-gl[data-light="notte"] .hero__line { color: var(--paper); }
+.no-gl .hero__copy { color: var(--ink); }
+html.has-gl[data-light="notte"] .nav:not(.is-solid) { color: var(--paper); }
 /* the supporting sentence, directly under the name, in the sky */
 /* the sentence lives on the plaster under the window: centred between the clock and the lights */
 .hero__line { grid-column: 2; margin: 0; justify-self: center; text-align: center; max-width: 34ch; color: var(--ink); font-size: var(--step-body); line-height: 1.35; }
@@ -155,22 +162,30 @@ html.has-gl[data-light="notte"] .hero__copy, html.has-gl[data-light="tramonto"] 
 
 /* ---------- rooms: one chapter per screen on its own ground ---------- */
 .rooms { margin-top: var(--gap-section); }
+/* in flow, never stacked: title, then the picture, then the words and the link underneath it */
 .chapter {
-  position: relative; height: 100svh; min-height: 620px; color: var(--paper);
-  display: grid; place-items: center; overflow: hidden;
+  position: relative; min-height: 100svh; color: var(--paper); overflow: hidden; background: var(--field);
+  display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto;
+  grid-template-areas: "title title" "img img" "text link";
+  gap: 24px var(--m); padding: calc(var(--m) + 64px) var(--m) var(--m);
 }
-.chapter__field { position: absolute; inset: 0; background: var(--field); }
-.chapter__img { position: relative; height: 75svh; width: auto; max-width: 80vw; aspect-ratio: 3 / 4; object-fit: cover; margin-top: 4%; }
-.chapter__title { position: absolute; top: calc(var(--m) + 64px); left: var(--m); margin: 0; font: 300 var(--step-lead)/1.1 var(--font); letter-spacing: -0.02em; }
-.chapter__text { position: absolute; left: var(--m); bottom: var(--m); max-width: 32ch; }
-.chapter__link { position: absolute; right: var(--m); bottom: var(--m); font-weight: 500; text-underline-offset: .3em; padding: .7em 0; transition: text-underline-offset var(--t-hover); }
+.chapter__title { grid-area: title; position: relative; margin: 0; font: 300 var(--step-lead)/1.1 var(--font); letter-spacing: -0.02em; }
+.chapter__img {
+  grid-area: img; position: relative; justify-self: center; align-self: center;
+  height: min(64svh, 760px); width: auto; max-width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
+}
+.chapter__text { grid-area: text; position: relative; max-width: 40ch; align-self: end; }
+.chapter__link { grid-area: link; position: relative; align-self: end; font-weight: 500; text-underline-offset: .3em; padding: .7em 0; transition: text-underline-offset var(--t-hover); }
 .chapter__link:hover { text-underline-offset: .45em; }
 @media (max-width: 819px) {
-  .chapter { place-items: start center; }
-  .chapter__img { width: 80vw; height: auto; max-width: none; margin-top: 22svh; }
-  .chapter__title { top: calc(var(--m) + 56px); }
-  .chapter__text { bottom: 72px; right: var(--m); max-width: none; }
-  .chapter__link { left: var(--m); right: auto; bottom: 16px; }
+  .chapter {
+    grid-template-columns: 1fr; grid-template-areas: "title" "img" "text" "link";
+    grid-template-rows: auto auto auto auto; align-content: center; gap: 18px; padding-top: calc(var(--m) + 64px);
+  }
+  /* as large as the screen allows, so title, picture, words and link all fit in one screen */
+  .chapter__img { height: auto; width: min(82vw, calc((100svh - 330px) * 0.75)); min-width: 58vw; }
+  .chapter__text { max-width: none; }
+  .chapter__link { justify-self: start; padding: .5em 0; }
 }
 
 /* ---------- cucina: the printed menu sheet ---------- */

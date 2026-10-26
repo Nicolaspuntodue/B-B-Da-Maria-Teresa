@@ -130,7 +130,9 @@ function makeLeaf(w, h, mat) {
   return { leaf, slats };
 }
 
-export function initHero(canvas, { src, mask, focus, light }) {
+// band(): the free strip of wall between the name and the controls, in px from the top of the canvas;
+// the window is fitted inside it so the text never lies on the view
+export function initHero(canvas, { src, mask, focus, light, band }) {
   const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, innerWidth < 820 ? 1.5 : 1.75));
   renderer.outputColorSpace = SRGBColorSpace;
@@ -192,7 +194,7 @@ export function initHero(canvas, { src, mask, focus, light }) {
   const sun = new DirectionalLight('#fff3df', 2.4);
   sun.position.set(-3, 4, -8);
   const lamp = new PointLight('#ffb36b', 0, 7, 1.6);
-  lamp.position.set(1.2, 1.4, 1.6);
+  lamp.position.set(-1.6, -1.3, 1.4); // a low lamp: the wall stays dark up where the name is
   const fill = new AmbientLight('#fff1e0', 1); // light bounced into the room off the floor
   const bounce = new PointLight('#ffe9cf', 0, 4.5, 1.4); // daylight off the sill, warming the wall round the window
   scene.add(hemi, sun, sun.target, lamp, fill, bounce);
@@ -203,23 +205,26 @@ export function initHero(canvas, { src, mask, focus, light }) {
   const w = target.slice();
   let aspect = 1, rest = 3, near = 2, lift = 0, open = 1.7;
 
+  let size = '';
   function layout() {
     const cw = canvas.clientWidth, ch = canvas.clientHeight;
+    const key = `${cw}x${ch}`;
+    if (key === size) return; // a phone's URL bar hiding fires resize with nothing to change: keep the scene still
+    size = key;
     renderer.setSize(cw, ch, false);
     aspect = cw / ch;
     const portrait = aspect < 0.9;
     if (!Wo || portrait !== (Wo < 2)) buildRoom(portrait);
     camera.aspect = aspect;
     const tn = 2 * Math.tan(MathUtils.degToRad(25));
-    // rest: the whole window in its wall, like a framed postcard; plaster above for the bar, below for the light controls
-    // narrower desktops keep a taller band of wall below for the sentence over the controls
-    const narrow = !portrait && innerWidth < 1200;
-    const fw = portrait ? 0.8 : narrow ? 0.56 : 0.64, fh = portrait ? 0.44 : narrow ? 0.66 : 0.74;
-    rest = Math.max(Wo / (fw * tn * aspect), Ho / (fh * tn));
+    // rest: the whole window in its wall, fitted between the name (above) and the controls (below)
+    const { top, bottom } = band ? band() : { top: ch * 0.13, bottom: ch * 0.87 };
+    const avail = Math.max(bottom - top, ch * 0.3);
+    const fw = portrait ? 0.82 : 0.64;
+    rest = Math.max(Wo / (fw * tn * aspect), (Ho * 1.08 * ch) / (avail * tn));
+    lift = (((top + bottom) / 2 - ch / 2) / ch) * rest * tn; // camera up = window lower on screen
     // start: up close, the closed shutters fill the screen
     near = Math.max(0.5, Math.min(Wo / (tn * aspect), Ho / tn) * 0.94 - DEPTH);
-    // wide screen: the window sits a little low, under the bar; phone: a little high, leaving the wall below for the controls
-    lift = (portrait ? -0.035 : 0.035) * rest * tn;
     open = portrait ? 1.45 : 1.7; // how far the leaves stand open at rest (rad): narrower on a phone so they stay in view
     bounce.position.set(0, -Ho / 2 + 0.2, 1.1);
     // the view plane fills the frustum from any camera position we use
@@ -239,9 +244,6 @@ export function initHero(canvas, { src, mask, focus, light }) {
     return new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
   });
 
-  const mouse = new Vector2(), mouseT = new Vector2();
-  addEventListener('pointermove', (e) => mouseT.set(e.clientX / innerWidth - 0.5, 0.5 - e.clientY / innerHeight), { passive: true });
-
   const acc = new Color(), tmp = new Color();
   const blendColor = (key) => ORDER.reduce((a, k, i) => a.add(tmp.set(ROOM[k][key]).multiplyScalar(w[i])), acc.set(0, 0, 0));
   const blendNum = (key) => ORDER.reduce((s, k, i) => s + ROOM[k][key] * w[i], 0);
@@ -259,7 +261,6 @@ export function initHero(canvas, { src, mask, focus, light }) {
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
     uniforms.uTime.value += dt;
-    mouse.lerp(mouseT, 0.05);
     for (let i = 0; i < 4; i++) w[i] += (target[i] - w[i]) * Math.min(1, dt * 2.2);
     applyLight();
 
@@ -273,10 +274,11 @@ export function initHero(canvas, { src, mask, focus, light }) {
     const z0 = MathUtils.lerp(near, rest, back);
     const y = lift * back * (1 - sc);
     // scrolling walks out over the sill towards the sea
-    camera.position.set(mouse.x * 0.12 * (1 - sc), y + mouse.y * 0.08 + sc * 0.12, z0 - sc * (z0 + DEPTH + 1.6));
+    // no pointer parallax: the window stays perfectly still (a finger scrolling on a phone made it shake)
+    camera.position.set(0, y + sc * 0.12, z0 - sc * (z0 + DEPTH + 1.6));
     camera.fov = 50 - sc * 12;
     camera.updateProjectionMatrix();
-    camera.lookAt(mouse.x * 0.4, y + mouse.y * 0.25 + sc * 0.1, -6);
+    camera.lookAt(0, y + sc * 0.1, -6);
     renderer.render(scene, camera);
     raf = requestAnimationFrame(frame);
   }
@@ -288,7 +290,8 @@ export function initHero(canvas, { src, mask, focus, light }) {
   return {
     ready,
     state,
-    debug: () => ({ rest, aspect, Wo, Ho, z: camera.position.z, fov: camera.fov, cw: canvas.clientWidth, ch: canvas.clientHeight }),
+    relayout() { size = ''; layout(); }, // after the fonts settle, the band may have moved
+    debug: () => ({ rest, lift, aspect, Wo, Ho, z: camera.position.z, cw: canvas.clientWidth, ch: canvas.clientHeight }),
     setLight(name) { ORDER.forEach((k, i) => { target[i] = k === name ? 1 : 0; }); },
   };
 }

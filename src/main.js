@@ -66,7 +66,14 @@ const slow = setTimeout(showStatic, 4000);
 
 let gl = null;
 import('./gl.js').then(({ initHero }) => {
-  gl = initHero($('.hero__gl'), { src: '/media/hero.webp', mask: '/media/hero-mask.webp', focus: 0.74, light: nowLight });
+  // the strip of wall between the bottom of the name and the top of the controls (layout boxes, transforms ignored)
+  const band = () => {
+    const h1 = $('.hero__title'), ctl = $('.hero__light');
+    const gap = innerWidth < 820 ? 14 : 22;
+    return { top: h1.offsetTop + h1.offsetHeight + gap, bottom: ctl.offsetTop - gap };
+  };
+  gl = initHero($('.hero__gl'), { src: '/media/hero.webp', mask: '/media/hero-mask.webp', focus: 0.74, light: nowLight, band });
+  document.fonts.ready.then(() => gl.relayout());
   if (import.meta.env.DEV) window.__gl = gl;
   return gl.ready;
 }).then(() => {
@@ -89,7 +96,7 @@ import('./gl.js').then(({ initHero }) => {
 
 if (!reduced) {
   gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: true } })
-    .to('.hero__copy', { yPercent: -18, opacity: 0, ease: 'none', duration: 0.35 }, 0.05)
+    .to('.hero__copy', { yPercent: -30, opacity: 0, ease: 'none', duration: 0.16 }, 0)
     .to('.hero__light, .hero__book', { opacity: 0, duration: 0.15 }, 0)
     .to({}, { duration: 0.5 });
 }
@@ -122,10 +129,10 @@ if (!reduced) {
   /* chapters: the field grows from an inset panel to full-bleed, the picture settles */
   $$('.chapter').forEach((ch) => {
     gsap.timeline({ scrollTrigger: { trigger: ch, start: 'top 75%' } })
-      .from($('.chapter__field', ch), { clipPath: 'inset(20px 20px 20px 20px)', duration: 0.8, ease: 'power3.out' })
+      .from(ch, { clipPath: 'inset(20px 20px 20px 20px)', duration: 0.8, ease: 'power3.out', clearProps: 'clipPath' })
       .from($('.chapter__img', ch), { scale: 0.92, opacity: 0, duration: 0.9, ease: 'power3.out' }, 0)
       .from([$('.chapter__title', ch), $('.chapter__text', ch), $('.chapter__link', ch)], { y: 20, opacity: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }, 0.15);
-    gsap.fromTo($('.chapter__img', ch), { yPercent: 4 }, { yPercent: -4, ease: 'none', scrollTrigger: { trigger: ch, scrub: true } });
+    gsap.fromTo($('.chapter__img', ch), { yPercent: 2 }, { yPercent: -2, ease: 'none', scrollTrigger: { trigger: ch, scrub: true } }); // small: the gap to the words stays clear
   });
 
   /* menu: groups and rows arrive row by row */
