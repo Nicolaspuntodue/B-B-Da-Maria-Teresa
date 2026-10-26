@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>B&amp;B da Maria Teresa · Maratea</title>
+  <meta name="description" content="B&amp;B di famiglia tra gli ulivi sopra il golfo di Maratea, a 900 metri dal centro, con il ristorante Da Mamma e Papà e la pasta fatta a mano da Maria Teresa." />
+  <meta name="theme-color" content="#2c3620" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%232c3620'/%3E%3Cg fill='%23e3e2da'%3E%3Crect x='14' y='12' width='16' height='40'/%3E%3Crect x='34' y='12' width='16' height='40'/%3E%3C/g%3E%3Cg fill='%232c3620'%3E%3Crect x='16' y='18' width='12' height='3'/%3E%3Crect x='16' y='25' width='12' height='3'/%3E%3Crect x='16' y='32' width='12' height='3'/%3E%3Crect x='16' y='39' width='12' height='3'/%3E%3Crect x='36' y='18' width='12' height='3'/%3E%3Crect x='36' y='25' width='12' height='3'/%3E%3Crect x='36' y='32' width='12' height='3'/%3E%3Crect x='36' y='39' width='12' height='3'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&display=swap" />
+  <link rel="preload" as="image" href="/media/hero.webp" fetchpriority="high" crossorigin="anonymous" />
+  <link rel="preload" as="image" href="/media/hero-mask.webp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <header class="nav">
+    <a href="#top" class="nav__brand">Da Maria Teresa</a>
+    <nav class="nav__links" aria-label="Sezioni">
+      <a href="#casa">La casa</a>
+      <a href="#cucina">La cucina</a>
+      <a href="#maratea">Maratea</a>
+    </nav>
+    <a href="#prenota" class="btn btn--paper nav__cta">Prenota</a>
+  </header>
+
+  <main id="top">
+    <!-- HERO: the persiane open on the gulf; scrolling walks out of the window -->
+    <section class="hero" aria-label="Il golfo di Maratea dalla finestra">
+      <div class="hero__stage">
+        <canvas class="hero__gl" aria-hidden="true"></canvas>
+        <img class="hero__still" src="/media/hero.webp" srcset="/media/hero-sm.webp 1400w, /media/hero.webp 2560w" sizes="100vw"
+          alt="Il golfo di Maratea visto tra gli ulivi, con il monte San Biagio e il Cristo Redentore" fetchpriority="high" crossorigin="anonymous" width="2560" height="1448" />
+        <div class="hero__copy">
+          <h1 class="hero__title"><span class="line"><span>B&amp;B da</span></span><span class="line"><span>Maria Teresa</span></span></h1>
+        </div>
+        <div class="hero__light">
+          <p class="hero__line"><span>Tra gli ulivi sopra il golfo di Maratea,</span> <span>con la cucina di mamma in terrazza.</span></p>
+          <p class="hero__clock" aria-live="polite">Maratea <strong data-clock>--:--</strong> · tramonto <strong data-sunset>--:--</strong></p>
+          <div class="lights" role="group" aria-label="Guarda il golfo con la luce di">
+            <button type="button" data-light="alba">Alba</button>
+            <button type="button" data-light="giorno">Giorno</button>
+            <button type="button" data-light="tramonto">Tramonto</button>
+            <button type="button" data-light="notte">Notte</button>
+          </div>
+        </div>
+        <a href="#prenota" class="btn btn--paper hero__book">Prenota diretto</a>
+      </div>
+    </section>
+
+    <!-- ABOUT: wide photo, colour tile, facts -->
+    <section class="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <h2 id="about-h" class="head" data-rise>Una casa tra gli ulivi</h2>
+        <p class="lead about__lead" data-rise>Maria Teresa e la sua famiglia vi aspettano in via Sorgimpiano, sulla collina sopra Maratea: camere ampie e silenziose, ognuna con il suo bagno, e una terrazza da cui si vedono il mare e le montagne.</p>
+        <div class="about__tiles">
+          <figure class="about__photo" data-reveal>
+            <img src="/photos/giardino-wide.webp" alt="Il prato fiorito del giardino, con gli ulivi, la casa bianca e le montagne di Maratea" width="1267" height="792" loading="lazy" />
+            <p class="about__note">Il giardino è vostro: gli ulivi, il prato fiorito, i tavoli all'ombra. Il parcheggio è privato e gratuito, a due passi dalla porta.</p>
+          </figure>
+          <div class="about__side">
+            <figure class="about__map" data-reveal aria-label="Mappa: la casa sulla collina sopra il centro di Maratea">
+              <svg viewBox="0 0 240 200" role="img" aria-hidden="true">
+                <path class="land" d="M240 0H118c-4 10-12 16-10 26 2 9 12 12 10 22-2 9-14 11-16 20-2 10 8 15 6 24-2 8-12 9-15 17-3 9 5 15 2 24-3 8-14 10-17 18-3 9 4 16 1 25-2 7-9 10-11 16v8h192z"/>
+                <circle class="dot" cx="132" cy="96" r="6"/>
+                <text x="146" y="100">la casa</text>
+                <text x="6" y="40" class="sea">Mar Tirreno</text>
+              </svg>
+            </figure>
+            <ul class="facts">
+              <li><strong>900 m</strong> dal centro storico</li>
+              <li><strong>3 km</strong> dalla spiaggia di Fiumicello</li>
+              <li><strong>8,9</strong> su Booking.com, 95 recensioni</li>
+              <li><strong data-clock>--:--</strong> ora a Maratea</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOWCASE: one chapter per screen, each on its own ground -->
+    <section class="rooms" id="casa" aria-label="La casa">
+      <article class="chapter" style="--field:#5a3920">
+        <div class="chapter__field"></div>
+        <h2 class="chapter__title">La camera</h2>
+        <img class="chapter__img" src="/photos/camera.webp" alt="La camera matrimoniale con la testiera in legno di castagno e il pavimento in cotto" width="1000" height="1339" loading="lazy" />
+        <p class="chapter__text">Letto matrimoniale, testiera in legno di castagno, cotto per terra, aria condizionata e balcone.</p>
+        <a class="chapter__link" href="#prenota">Prenota la camera</a>
+      </article>
+      <article class="chapter" style="--field:#4f3520">
+        <div class="chapter__field"></div>
+        <h2 class="chapter__title">Il silenzio</h2>
+        <img class="chapter__img" src="/photos/volta.webp" alt="La camera vista dalla tenda di lino, con il soffitto a volta e l'armadio in legno" width="1000" height="1339" loading="lazy" />
+        <p class="chapter__text">Soffitti a volta, tende di lino e nessun rumore da fuori: qui si dorme davvero.</p>
+        <a class="chapter__link" href="#ospiti">Leggi gli ospiti</a>
+      </article>
+      <article class="chapter" style="--field:#5b3529">
+        <div class="chapter__field"></div>
+        <h2 class="chapter__title">Il bagno</h2>
+        <img class="chapter__img" src="/photos/bagno.webp" alt="Il bagno privato con la doccia, le piastrelle in cotto e la porta in legno" width="506" height="675" loading="lazy" />
+        <p class="chapter__text">Privato, in ogni camera, con doccia e asciugamani. Per la pulizia gli ospiti danno 9,5 su 10.</p>
+        <a class="chapter__link" href="#prenota">Verifica le date</a>
+      </article>
+      <article class="chapter" style="--field:#4a3f24">
+        <div class="chapter__field"></div>
+        <h2 class="chapter__title">La colazione</h2>
+        <img class="chapter__img" src="/photos/colazione.webp" alt="Il tavolo della colazione sotto l'arco del terrazzino, con il mare in fondo" width="650" height="866" loading="lazy" />
+        <p class="chapter__text">Si fa sul terrazzino, sotto l'arco, tra le palme e il mare in fondo: cornetti, caffè, frutta di stagione.</p>
+        <a class="chapter__link" href="#cucina">La cucina di casa</a>
+      </article>
+      <article class="chapter" style="--field:#2f3826">
+        <div class="chapter__field"></div>
+        <h2 class="chapter__title">Il giardino</h2>
+        <img class="chapter__img" src="/photos/giardino.webp" alt="Gli ulivi del giardino davanti alla casa bianca, con le montagne sullo sfondo" width="432" height="576" loading="lazy" />
+        <p class="chapter__text">Ulivi secolari, il prato e i tavoli all'ombra. Per i più piccoli c'è anche lo scivolo.</p>
+        <a class="chapter__link" href="#maratea">Intorno alla casa</a>
+      </article>
+    </section>
+
+    <!-- LIST: the printed menu of Da Mamma e Papà -->
+    <section class="cucina" id="cucina" aria-labelledby="menu-h">
+      <div class="wrap cucina__grid">
+        <figure class="cucina__photo" data-reveal>
+          <video data-src="/media/pasta" poster="/media/pasta.webp" muted loop playsinline preload="none" width="720" height="902" aria-label="Mani infarinate che arrotolano i fusilli al ferretto su un tagliere di legno"></video>
+          <figcaption>Fusilli al ferretto: un ferro sottile e la pasta arrotolata a mano, uno per uno.</figcaption>
+        </figure>
+        <div class="sheet" data-reveal>
+          <h2 id="menu-h" class="head sheet__name">Da Mamma e Papà</h2>
+          <p class="sheet__note">Il ristorante della casa, aperto anche a chi non dorme qui. La pasta la fa Maria Teresa, al momento.</p>
+          <div class="sheet__group">
+            <h3>Per cominciare</h3>
+            <ul>
+              <li><span>Crostini di pane fatto in casa<small>Olio nuovo, pomodoro e origano</small></span><b>4 €</b></li>
+              <li><span>Tagliere lucano<small>Salumi e formaggi della Basilicata</small></span><b>14 €</b></li>
+              <li><span>Tortino di alici<small>Alici del golfo, pane e pecorino</small></span><b>14 €</b></li>
+            </ul>
+          </div>
+          <div class="sheet__group">
+            <h3>La pasta fatta a mano</h3>
+            <ul>
+              <li><span>Fusilli al ferretto con ragù di polpo<small>Il piatto di casa</small></span><b>14 €</b></li>
+              <li><span>Pasta e fagioli con le cozze<small>Fagioli lucani, cozze di scoglio</small></span><b>13 €</b></li>
+              <li><span>Ravioli di ricotta<small>Al pomodoro fresco e basilico</small></span><b>12 €</b></li>
+            </ul>
+          </div>
+          <div class="sheet__group">
+            <h3>Secondi</h3>
+            <ul>
+              <li><span>Le polpette di nonna Teresa<small>Al sugo, come la domenica</small></span><b>12 €</b></li>
+              <li><span>Grigliata di maiale lucano<small>Salsiccia, pancetta e costina</small></span><b>16 €</b></li>
+              <li><span>Frittura del golfo<small>Calamari, gamberi e alici</small></span><b>18 €</b></li>
+            </ul>
+          </div>
+          <div class="sheet__group">
+            <h3>Dolci</h3>
+            <ul>
+              <li><span>Crostata della casa<small>Con la marmellata di stagione</small></span><b>5 €</b></li>
+              <li><span>Tiramisù<small>Fatto la mattina</small></span><b>5 €</b></li>
+            </ul>
+          </div>
+          <p class="sheet__hours">Pranzo 12:30–14:30 · Cena 19:30–22:30<br />Prenotazioni al <a href="tel:+393460312955">346 031 2955</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY: Maratea gathered round a heading -->
+    <section class="intorno" id="maratea" aria-labelledby="intorno-h">
+      <div class="intorno__field">
+        <div class="intorno__center">
+          <h2 id="intorno-h" class="head intorno__title" data-rise><span>Tutta Maratea</span> <span>a dieci minuti</span></h2>
+          <p data-rise>Il Cristo Redentore sul monte San Biagio, il borgo delle chiese, le calette di Fiumicello e la spiaggia nera: tutto a meno di dieci minuti d'auto.</p>
+          <a class="textlink" data-rise href="https://www.google.com/maps/search/?api=1&amp;query=Via+Sorgimpiano+2+Maratea" target="_blank" rel="noopener">Come arrivare</a>
+        </div>
+        <img class="pin p1" data-drift="8" src="/photos/cristo.webp" alt="La statua del Cristo Redentore sul monte San Biagio" width="520" height="578" loading="lazy" />
+        <img class="pin p2" data-drift="5" src="/photos/borgo.webp" alt="Una via del centro storico di Maratea" width="520" height="578" loading="lazy" />
+        <img class="pin p3" data-drift="11" src="/photos/costa.webp" alt="La costa rocciosa di Maratea vista dal mare" width="520" height="578" loading="lazy" />
+        <img class="pin p4" data-drift="6" src="/photos/centro.webp" alt="I tetti del centro storico con il golfo di Policastro" width="520" height="578" loading="lazy" />
+        <img class="pin p5" data-drift="9" src="/photos/porto.webp" alt="Fiumicello e il porto visti dal monte San Biagio" width="520" height="578" loading="lazy" />
+        <img class="pin p6" data-drift="4" src="/photos/isola.webp" alt="L'isola di Santo Janni nel golfo" width="520" height="578" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL: picture and offset quotation -->
+    <section class="ospiti" id="ospiti" aria-labelledby="ospiti-h">
+      <div class="wrap ospiti__grid">
+        <figure class="ospiti__portrait" data-reveal>
+          <img src="/photos/colazione-full.webp" alt="La colazione servita sul terrazzino con vista sul mare" width="720" height="866" loading="lazy" />
+        </figure>
+        <div class="ospiti__words">
+          <h2 id="ospiti-h" class="head" data-rise>8,9 su 10, dagli ospiti</h2>
+          <blockquote data-rise>
+            <p>“Straordinario posto dove alloggiare: la struttura offre un terrazzino dove poter fare colazione, con molti scorci sul mare e sulle montagne.”</p>
+            <footer>Leonardo, ospite. Recensione su Booking.com</footer>
+          </blockquote>
+          <ul class="ospiti__more" data-rise>
+            <li>“Cibo a km zero, preparato con cura e fantasia.” <cite>Marco</cite></li>
+            <li>“Massima disponibilità del proprietario, che è venuto incontro ad ogni nostra esigenza.” <cite>Daniele</cite></li>
+          </ul>
+        </div>
+        <img class="ospiti__small" data-reveal src="/photos/fiori.webp" alt="I fiori del prato in giardino" width="246" height="246" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- CONTACT: visit card on the evening terrace -->
+    <section class="prenota" id="prenota" aria-labelledby="prenota-h">
+      <div class="prenota__photo">
+        <img src="/media/sera.webp" srcset="/media/sera-sm.webp 1000w, /media/sera.webp 2048w" sizes="100vw" alt="Una terrazza tra gli ulivi al tramonto, con la pasta in tavola e il golfo sullo sfondo" width="2048" height="1360" loading="lazy" />
+      </div>
+      <div class="card">
+        <h2 id="prenota-h" class="card__title">Prenota diretto</h2>
+        <address>Via Sorgimpiano 2<br />85046 Maratea (PZ)</address>
+        <dl class="card__rows">
+          <div><dt>Check-in</dt><dd>15:00–18:00</dd></div>
+          <div><dt>Check-out</dt><dd>8:00–11:00</dd></div>
+          <div><dt>Telefono</dt><dd><a href="tel:+393460312955">346 031 2955</a></dd></div>
+        </dl>
+        <form class="book" novalidate>
+          <div class="book__step" data-step="form">
+            <div class="book__row">
+              <label class="field"><span>Arrivo</span><input type="date" name="checkin" required /></label>
+              <label class="field"><span>Partenza</span><input type="date" name="checkout" required /></label>
+            </div>
+            <div class="book__row">
+              <label class="field"><span>Ospiti</span><select name="guests"><option value="2">2 ospiti</option><option value="1">1 ospite</option></select></label>
+              <label class="field"><span>Email</span><input type="email" name="email" autocomplete="email" required /></label>
+            </div>
+            <p class="book__sum" aria-live="polite"><span data-out="line">Scegliete le date</span><strong data-out="total">—</strong></p>
+            <p class="book__err" data-out="error" role="alert"></p>
+            <button class="btn btn--olive book__btn" type="submit">Richiedi la prenotazione</button>
+            <p class="book__note">Senza commissioni: prenotate con la famiglia. Vi confermiamo la disponibilità entro poche ore.</p>
+          </div>
+          <div class="book__step book__done" data-step="done" hidden>
+            <p class="card__title">Grazie!</p>
+            <p data-out="done"></p>
+            <button class="textlink" type="button" data-action="reset">Nuova richiesta</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__cols">
+      <div>
+        <p>B&amp;B da Maria Teresa</p>
+        <p>Via Sorgimpiano 2</p>
+        <p>85046 Maratea (PZ)</p>
+        <p>CIN IT076044C102906001</p>
+      </div>
+      <nav aria-label="Sezioni">
+        <p>La casa</p>
+        <a href="#casa">Le camere</a>
+        <a href="#cucina">Il ristorante</a>
+        <a href="#maratea">Maratea</a>
+        <a href="#prenota">Prenota</a>
+      </nav>
+      <div>
+        <p>Seguiteci</p>
+        <a href="https://www.instagram.com/ristorante_da_mamma_e_papa/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/BebDaMariaTeresa/" target="_blank" rel="noopener">Facebook</a>
+      </div>
+      <div>
+        <p>Chiamateci</p>
+        <a href="tel:+393460312955">346 031 2955</a>
+        <a href="tel:+393297147780">329 714 7780</a>
+      </div>
+    </div>
+    <svg class="footer__word" viewBox="0 0 1000 150" aria-label="Maria Teresa" role="img"><text x="500" y="128" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">Maria Teresa</text></svg>
+    <p class="footer__legal">© 2026 B&amp;B da Maria Teresa, Maratea. Demo di Punto Due Studio.</p>
+    <p class="credits">Foto di Maratea: <a href="https://commons.wikimedia.org/w/index.php?curid=188933628">“Maratea - Cristo Redentore”</a> e <a href="https://commons.wikimedia.org/wiki/File:Maratea_-_View_from_Cristo_Redentore.jpg">“Maratea - View from Cristo Redentore”</a> di Benjamin Smith, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/w/index.php?curid=29186708">“Maratea old town AvL”</a> di AlexanderVanLoon, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; <a href="https://commons.wikimedia.org/w/index.php?curid=112934207">“Maratea's coast”</a> di Francesco Cirigliano, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Maratea03.jpg">“Maratea03”</a> di Luke18389 e <a href="https://commons.wikimedia.org/w/index.php?curid=38850051">“Isola Sant'Ianni seen from Cristo Redentore”</a> di José Luiz, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; via Wikimedia Commons.</p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
